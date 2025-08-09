@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redeem Rewards</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #0d1b2a;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+
+      h2 {
+        color: white;
+      }
+      p {
+        color: white;
+      }
+      .item p {
+        color: black;
+      }
+      /* Navbar Styling */
+      .navbar {
+        width: 100%;
+        background-color: #004a50;
+        padding: 22px 0px;
+        display: flex;
+        justify-content: space-around; /* Space between logo & links */
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .nav-logo {
+        color: white;
+        font-weight: 700;
+        font-size: 1.3rem;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+        margin: 0; /* Remove default ul margin */
+        padding: 0; /* Remove default ul padding */
+      }
+
+      .nav-links li {
+        display: inline;
+      }
+
+      .nav-links li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        transition: 0.3s;
+      }
+
+      .nav-links li a:hover,
+      .nav-links li a.active {
+        color: #ffdd59;
+      }
+
+      /* Store Layout */
+      .store {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        max-width: 800px;
+        margin: 20px auto;
+      }
+
+      .item {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .item img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        border-radius: 8px;
+        background: #f9f9f9;
+        padding: 5px;
+      }
+
+      .item button {
+        margin-top: 10px;
+        padding: 8px 15px;
+        border: none;
+        background: #28a745;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .item button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .count {
+        font-weight: bold;
+        margin-left: 10px;
+        color: #007bff;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-logo">USELESS</div>
+      <ul class="nav-links">
+        <li><a href="main.html">Levels</a></li>
+        <li><a href="badges.html">Badges</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="redeem.html">Redeem</a></li>
+      </ul>
+    </nav>
+
+    <h2>Redeem Your Rewards</h2>
+    <p><strong>Your Points:</strong> <span id="points">0</span></p>
+
+    <div class="store">
+      <div class="item">
+        <img src="img/t-shirt.webp" alt="T-Shirt" />
+        <h3>T-Shirt</h3>
+        <p>Cost: 100 Points</p>
+        <button onclick="redeem('tshirt', 100)">Redeem</button>
+        <span class="count" id="tshirtCount">0</span>
+      </div>
+
+      <div class="item">
+        <img src="img/notebook.jpg" alt="Notebook" />
+        <h3>Notebook</h3>
+        <p>Cost: 50 Points</p>
+        <button onclick="redeem('notebook', 50)">Redeem</button>
+        <span class="count" id="notebookCount">0</span>
+      </div>
+
+      <div class="item">
+        <img src="img/Pen.webp" alt="Pen" />
+        <h3>Pen</h3>
+        <p>Cost: 20 Points</p>
+        <button onclick="redeem('pen', 20)">Redeem</button>
+        <span class="count" id="penCount">0</span>
+      </div>
+
+      <!-- NEW ITEMS -->
+      <div class="item">
+        <img src="https://m.media-amazon.com/images/I/51wmBODthTL.jpg" alt="Coffee Mug" />
+        <h3>Coffee Mug</h3>
+        <p>Cost: 80 Points</p>
+        <button onclick="redeem('mug', 80)">Redeem</button>
+        <span class="count" id="mugCount">0</span>
+      </div>
+
+      <div class="item">
+        <img src="https://icon.in/cdn/shop/files/1_8cc399f2-f971-4660-bb24-5f7ab691c87e.jpg?v=1735287049" alt="Backpack" />
+        <h3>Backpack</h3>
+        <p>Cost: 150 Points</p>
+        <button onclick="redeem('backpack', 150)">Redeem</button>
+        <span class="count" id="backpackCount">0</span>
+      </div>
+
+      <div class="item">
+        <img src="https://m.media-amazon.com/images/I/51WrzKuTLWL.jpg" alt="Keychain" />
+        <h3>Keychain</h3>
+        <p>Cost: 30 Points</p>
+        <button onclick="redeem('keychain', 30)">Redeem</button>
+        <span class="count" id="keychainCount">0</span>
+      </div>
+
+      <div class="item">
+        <img src="https://media-uk.landmarkshops.in/cdn-cgi/image/h=750,w=750,q=85,fit=cover/homecentre/1000012541085-1000012541084_01-2100.jpg" alt="Water Bottle" />
+        <h3>Water Bottle</h3>
+        <p>Cost: 60 Points</p>
+        <button onclick="redeem('bottle', 60)">Redeem</button>
+        <span class="count" id="bottleCount">0</span>
+      </div>
+    </div>
+
+    <script>
+      // Load points from localStorage
+      let points = parseInt(localStorage.getItem("points")) || 0;
+      document.getElementById("points").textContent = points;
+
+      // Load item counts
+      // Load item counts
+      const items = [
+        "tshirt",
+        "notebook",
+        "pen",
+        "mug",
+        "backpack",
+        "keychain",
+        "bottle",
+      ];
+      items.forEach((item) => {
+        const count = parseInt(localStorage.getItem(item + "Count")) || 0;
+        document.getElementById(item + "Count").textContent = count;
+      });
+
+      function redeem(item, cost) {
+        if (points >= cost) {
+          points -= cost;
+          localStorage.setItem("points", points);
+          document.getElementById("points").textContent = points;
+
+          let count = parseInt(localStorage.getItem(item + "Count")) || 0;
+          count++;
+          localStorage.setItem(item + "Count", count);
+          document.getElementById(item + "Count").textContent = count;
+        } else {
+          const btn = document.querySelector(
+            `#${item}Count`
+          ).previousElementSibling;
+          btn.textContent = "Not enough points!";
+          btn.disabled = true;
+          setTimeout(() => {
+            btn.textContent = "Redeem";
+            btn.disabled = false;
+          }, 1500);
+        }
+      }
+    </script>
+  </body>
+</html>

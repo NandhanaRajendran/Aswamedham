@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Useless Game Levels</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+      :root {
+        --primary-color: #00bfa6;
+        --accent-color: #ffffff;
+        --background-color: #0d1b2a;
+        --text-color: #ffffff;
+        --light-text: #f1f1f1;
+        --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        --font: "Poppins", sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        padding-top: 80px;
+      }
+
+      nav {
+        background-color: #004a50;
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .logo {
+        color: var(--light-text);
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        position: relative;
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 18px;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        border-radius: 4px;
+        background-color: var(--accent-color);
+        bottom: -4px;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: 0.5s;
+      }
+
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+      }
+
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      .bar {
+        height: 3px;
+        width: 25px;
+        background-color: white;
+        margin: 4px 0;
+        transition: 0.3s;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          background: #111;
+          flex-direction: column;
+          width: 200px;
+          display: none;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links li {
+          margin: 15px 0;
+          text-align: center;
+        }
+      }
+
+      .points-bar {
+        position: fixed;
+        top: 90px;
+        right: 20px;
+        background-color: #004a50;
+        padding: 10px 20px;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        box-shadow: var(--shadow);
+        font-weight: bold;
+      }
+
+      .coin-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+      .reset {
+        position: fixed;
+        top: 90px;
+        left: 20px;
+      }
+
+      .reset button {
+        padding: 10px 20px;
+        background: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 20px;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+      }
+
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .skill-item {
+        background: #1b1b1b;
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 30px 20px;
+        width: 160px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        color: var(--text-color);
+        cursor: pointer;
+        position: relative;
+        height: 9rem;
+      }
+
+      .skill-item.locked {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .skill-item.locked::after {
+        content: "🔒";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.2rem;
+      }
+
+      .skill-item:hover:not(.locked) {
+        transform: translateY(-10px);
+        background-color: #0e2225;
+      }
+
+      .skill-icon {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+      }
+
+      .progress-container {
+        margin-top: 30px;
+        margin-bottom: 25px;
+        background: #ccc;
+        height: 10px;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background-color: var(--primary-color);
+        transition: width 0.4s ease;
+      }
+
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 10px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        box-shadow: var(--shadow);
+        height: 30%;
+        width: 30%;
+        font-size: larger;
+      }
+
+      .modal-content button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: var(--primary-color);
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .modal-tap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      #tap-area {
+        width: 150px;
+        height: 70px;
+        background: #4caf50;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        border-radius: 10px;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.3s ease;
+      }
+
+      #tap-area:hover {
+        background: #43a047;
+      }
+      .hold-button {
+        padding: 15px 30px;
+        font-size: 18px;
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 10px;
+        transition: background 0.3s ease;
+      }
+
+      .hold-button:hover {
+        background: #ff5252;
+      }
+
+      .moving-box {
+        width: 40px;
+        height: 40px;
+        background: red;
+        position: absolute;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .game-area {
+        width: 300px;
+        height: 200px;
+        border: 2px solid #ccc;
+        position: relative;
+        margin: 20px auto;
+        background: #f0f0f0;
+        border-radius: 5px;
+      }
+
+      .game-input,
+      .game-select {
+        padding: 10px;
+        margin: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">USELESS</a>
+        <ul class="nav-links">
+          <li><a href="#points">Points</a></li>
+          <li><a href="#levels">Levels</a></li>
+          <li><a href="#badges">Badges</a></li>
+          <li><a href="#profile">Profile</a></li>
+        </ul>
+      </div>
+    </nav> -->
+
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">USELESS</a>
+        <div class="menu-toggle" id="menu-toggle">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="main.html">Levels</a></li>
+          <li><a href="badges.html">Badges</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="redeem.html">Redeem</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="points-bar">
+      <div class="coin-icon">🪙</div>
+      <span id="points">0</span>
+    </div>
+    <div class="reset">
+      <button onclick="resetProgress()">Reset Progress</button>
+    </div>
+
+    <div class="container" id="levels">
+      <h2 class="section-title">Levels</h2>
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="skills-container" id="levels-container"></div>
+    </div>
+
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <p id="modal-msg"></p>
+        <button onclick="closeModal()">OK</button>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("menu-toggle")
+        .addEventListener("click", function () {
+          document.getElementById("nav-links").classList.toggle("active");
+        });
+
+      const levelsContainer = document.getElementById("levels-container");
+      const pointsDisplay = document.getElementById("points");
+      const progressBar = document.getElementById("progress-bar");
+      const modal = document.getElementById("modal");
+      const modalMsg = document.getElementById("modal-msg");
+
+      let points = parseInt(localStorage.getItem("points")) || 0;
+      pointsDisplay.textContent = points;
+      const totalLevels = 100;
+      let completedLevels =
+        JSON.parse(localStorage.getItem("completedLevels")) || [];
+
+      const funnyMessages = [
+        "Level completed... still useless 😐",
+        "That was it? Yup. Move on.",
+        "Are you actually enjoying this?",
+        "Maybe it gets better... maybe not.",
+        "You're still here? Impressive.",
+        "Okay... you're committed!",
+        "Gold star for effort! ⭐",
+        "Well done... I guess?",
+        "That was pointless. Next!",
+        "You passed! Or did you?",
+      ];
+
+      function showModal(msg) {
+        modalMsg.textContent = msg;
+        modal.classList.add("show");
+      }
+
+      function closeModal() {
+        modal.classList.remove("show");
+      }
+
+      function launchConfetti() {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+
+      function completeLevel(index) {
+        const level = document.querySelector(`.level[data-index="${index}"]`);
+        level.classList.add("completed");
+        level.querySelector(".skill-icon").textContent = "🌟";
+        points += 10;
+        pointsDisplay.textContent = points;
+        localStorage.setItem("points", points);
+
+        progressBar.style.width = `${((index + 1) / totalLevels) * 100}%`;
+
+        if (index + 1 < totalLevels) {
+          const next = document.querySelector(
+            `.level[data-index="${index + 1}"]`
+          );
+          next.classList.remove("locked");
+        }
+        if (!completedLevels.includes(index)) {
+          completedLevels.push(index);
+          localStorage.setItem(
+            "completedLevels",
+            JSON.stringify(completedLevels)
+          );
+        }
+
+        showModal(funnyMessages[index % funnyMessages.length]);
+      }
+
+      function createLevel(index) {
+        const level = document.createElement("div");
+        level.className = "skill-item level";
+        level.dataset.index = index;
+        level.innerHTML = `<div class="skill-icon"><i class="fas fa-star"></div><p>Level ${
+          index + 1
+        }</p>`;
+        if (index > 0) level.classList.add("locked");
+
+        level.addEventListener("click", async () => {
+          if (
+            level.classList.contains("locked") ||
+            level.classList.contains("completed")
+          )
+            return;
+
+          if (index === 0) {
+            launchConfetti();
+            completeLevel(index);
+          } else if (index === 1) {
+            let count = 0;
+            modalMsg.innerHTML = `
+            <div class="modal-tap">
+                <p>Tap 5 times to complete</p>
+                <div id="tap-area">Tap Me</div>
+                <p id="tap-count">Taps: 0 / 5</p>
+            </div>
+            `;
+
+            modal.classList.add("show");
+
+            const tapArea = document.getElementById("tap-area");
+            const tapCount = document.getElementById("tap-count");
+
+            const tapHandler = () => {
+              count++;
+              tapCount.textContent = `Taps: ${count} / 5`;
+              if (count >= 5) {
+                modal.classList.remove("show");
+                tapArea.removeEventListener("click", tapHandler);
+                completeLevel(index);
+                launchConfetti();
+              }
+            };
+
+            tapArea.addEventListener("click", tapHandler);
+          } else if (index === 2) {
+            let seconds = 5;
+            const msg = document.createElement("div");
+            msg.textContent = `Wait for ${seconds} seconds...`;
+            modalMsg.innerHTML = "";
+            modalMsg.appendChild(msg);
+            modal.classList.add("show");
+
+            const interval = setInterval(() => {
+              seconds--;
+              msg.textContent = `Wait for ${seconds} seconds...`;
+              if (seconds === 0) {
+                clearInterval(interval);
+                modal.classList.remove("show");
+                completeLevel(index);
+                launchConfetti();
+              }
+            }, 1000);
+            return;
+          } else if (index == 3) {
+            modalMsg.innerHTML = "<p>Hold the button for 3 seconds</p>";
+            const btn = document.createElement("button");
+            btn.textContent = "Hold me";
+            btn.className = "hold-button";
+            modalMsg.appendChild(btn);
+            modal.classList.add("show");
+
+            let timer;
+            let isHolding = false;
+
+            const startHold = () => {
+              if (!isHolding) {
+                isHolding = true;
+                btn.textContent = "Keep holding...";
+                btn.style.background = "#ff4757";
+                timer = setTimeout(() => {
+                  modal.classList.remove("show");
+                  completeLevel(index);
+                  launchConfetti();
+                }, 3000);
+              }
+            };
+
+            const stopHold = () => {
+              if (isHolding) {
+                isHolding = false;
+                clearTimeout(timer);
+                btn.textContent = "Hold me";
+                btn.style.background = "#ff6b6b";
+              }
+            };
+
+            btn.addEventListener("mousedown", startHold);
+            btn.addEventListener("mouseup", stopHold);
+            btn.addEventListener("mouseleave", stopHold);
+          } else if (index === 4) {
+            modalMsg.innerHTML = "<p>Click the moving red box to win!</p>";
+            const gameArea = document.createElement("div");
+            gameArea.className = "game-area";
+
+            const box = document.createElement("div");
+            box.className = "moving-box";
+            gameArea.appendChild(box);
+            modalMsg.appendChild(gameArea);
+            modal.classList.add("show");
+
+            const moveBox = () => {
+              const maxX = gameArea.offsetWidth - 40; // box width
+              const maxY = gameArea.offsetHeight - 40; // box height
+              const newX = Math.random() * maxX;
+              const newY = Math.random() * maxY;
+              box.style.left = `${newX}px`;
+              box.style.top = `${newY}px`;
+            };
+
+            // Set initial position after a small delay
+            setTimeout(() => {
+              moveBox();
+              const interval = setInterval(moveBox, 800);
+
+              box.addEventListener("click", () => {
+                clearInterval(interval);
+                modal.classList.remove("show");
+                completeLevel(index);
+                launchConfetti();
+              });
+            }, 100);
+          } else if (index === 5) {
+            modalMsg.innerHTML = "<p>Pick the color: 🔵</p>";
+
+            const select = document.createElement("select");
+            select.className = "game-select";
+            ["Choose a color", "Red", "Green", "Blue", "Yellow"].forEach(
+              (c) => {
+                const opt = document.createElement("option");
+                opt.textContent = c;
+                opt.value = c;
+                select.appendChild(opt);
+              }
+            );
+            modalMsg.appendChild(select);
+            modal.classList.add("show");
+
+            select.addEventListener("change", () => {
+              if (select.value === "Blue") {
+                modal.classList.remove("show");
+                completeLevel(index);
+                launchConfetti();
+              }
+            });
+          } else if (index === 6) {
+            modalMsg.innerHTML =
+              "<p>Type the word: <strong>butterfly</strong></p>";
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "game-input";
+            input.placeholder = "Type here...";
+            modalMsg.appendChild(input);
+            modal.classList.add("show");
+
+            input.addEventListener("input", () => {
+              if (input.value.trim().toLowerCase() === "butterfly") {
+                modal.classList.remove("show");
+                completeLevel(index);
+                launchConfetti();
+              }
+            });
+
+            input.focus();
+          } else {
+            completeLevel(index);
+            launchConfetti();
+            checkBadges();
+          }
+        });
+
+        return level;
+      }
+      for (let i = 0; i < totalLevels; i++) {
+        levelsContainer.appendChild(createLevel(i));
+      }
+
+      function checkBadges() {
+        const badgeData = [
+          { name: "Rookie", emoji: "🎯", threshold: 50 },
+          { name: "Learner", emoji: "📘", threshold: 100 },
+          { name: "Explorer", emoji: "🧭", threshold: 150 },
+          { name: "Apprentice", emoji: "🛠️", threshold: 200 },
+          { name: "Silver", emoji: "🥈", threshold: 250 },
+          { name: "Achiever", emoji: "🚀", threshold: 300 },
+          { name: "Thinker", emoji: "🧠", threshold: 350 },
+          { name: "Strategist", emoji: "📊", threshold: 400 },
+          { name: "Gold", emoji: "🥇", threshold: 450 },
+          { name: "Problem Solver", emoji: "🔍", threshold: 500 },
+          { name: "Innovator", emoji: "💡", threshold: 550 },
+          { name: "Champion", emoji: "🏆", threshold: 600 },
+          { name: "Mastermind", emoji: "🧠", threshold: 650 },
+          { name: "Platinum", emoji: "💎", threshold: 700 },
+          { name: "Elite", emoji: "🦸", threshold: 750 },
+          { name: "Legend", emoji: "📜", threshold: 800 },
+          { name: "Ultra", emoji: "🌌", threshold: 850 },
+          { name: "Mythic", emoji: "🐉", threshold: 900 },
+          { name: "Omega", emoji: "🔱", threshold: 950 },
+          { name: "Immortal", emoji: "🌟", threshold: 1000 },
+        ];
+
+        const unlocked = JSON.parse(localStorage.getItem("badges")) || [];
+
+        badgeData.forEach((badge) => {
+          if (points >= badge.threshold && !unlocked.includes(badge.name)) {
+            unlocked.push(badge.name);
+            localStorage.setItem("badges", JSON.stringify(unlocked));
+            showModal(`You earned the ${badge.emoji} ${badge.name} badge!`);
+          }
+        });
+      }
+      completedLevels.forEach((index) => {
+        const level = document.querySelector(`.level[data-index="${index}"]`);
+        if (level) {
+          level.classList.add("completed");
+          level.querySelector(".skill-icon").textContent = "🌟";
+
+          // Unlock the next level
+          const next = document.querySelector(
+            `.level[data-index="${index + 1}"]`
+          );
+          checkBadges();
+          if (next) next.classList.remove("locked");
+        }
+      });
+      function resetProgress() {
+        localStorage.removeItem("points");
+        localStorage.removeItem("completedLevels");
+        localStorage.removeItem("badges"); // 🧼 Clear badges too
+        location.reload();
+        const items = ["tshirt", "notebook", "pen"];
+        items.forEach((item) => {
+          localStorage.removeItem(item + "Count");
+        });
+
+        // Optionally clear everything at once
+        // localStorage.clear();
+
+        // Reload the page so everything resets visually
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
