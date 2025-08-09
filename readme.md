@@ -43,19 +43,19 @@ Open index.html in a web browser.
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](/Aswamedham/img/LoginPage.png)
+![Screenshot1]( img/LoginPage.png)
 *This is the login page*
 
-![Screenshot2](/Aswamedham/img/Levels.png)
+![Screenshot2]( img/Levels.png)
 *It shows how the levels are arranged*
 
-![Screenshot3](/Aswamedham/img/Badges.pnge)
+![Screenshot3]( img/Badges.pnge)
 *Here displays the badges earned*
 
-![Screenshot3](/Aswamedham/img/Profile.png)
+![Screenshot3]( img/Profile.png)
 *Here we can see how far we arrived*
 
-![Screenshot3](/Aswamedham/img/Redeem.png)
+![Screenshot3]( img/Redeem.png)
 *ere we can purchase goodies with our points*
 
 # Diagrams
