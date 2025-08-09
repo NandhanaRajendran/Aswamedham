@@ -1,60 +1,62 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# GOOFLOOP 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: ASWAMEDHAM
 
 
 ### Team Members
-- Team Lead: [Nandhana Rajendran] - [GEC Idukki]
-- Member 2: [Aswathy A] - [GEC Idukki]
+- Team Lead: Nandhana Rajendran - GEC Idukki 
+- Member 2: Aswathy A - GEC Idukki 
  
 
 ### Project Description
-[2-3 lines about what your project does]
+GoofLoop is a fun, interactive, web-based game platform with 100 progressively unlocked levels.  
+Each level presents a quirky, “useless” challenge — from clicking a moving box to holding a button for 3 seconds and etc — rewarding with points, badges, and confetti (because why not?).Can be purchase goodies with the eraned points
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+When there’s absolutely nothing to do, and you still want to feel like you’ve accomplished… something.
+
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We include simple games. Each level has a useless task to complete.”
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
+- HTML,CSS,JavaScript 
+- VS Code,Git,Github,Netlify
+ 
 ### Implementation
 For Software:
 # Installation
-[commands]
-
+```bash
+git clone https://github.com/NandhanaRajendran/Aswamedham.git
+cd Aswamedham
 # Run
-[commands]
+Open index.html in a web browser.
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](/Aswamedham/img/LoginPage.png)
+*This is the login page*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](/Aswamedham/img/Levels.png)
+*It shows how the levels are arranged*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](/Aswamedham/img/Badges.pnge)
+*Here displays the badges earned*
+
+![Screenshot3](/Aswamedham/img/Profile.png)
+*Here we can see how far we arrived*
+
+![Screenshot3](/Aswamedham/img/Redeem.png)
+*ere we can purchase goodies with our points*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -88,9 +90,9 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Aswathy A: Idea ,Login page and Profile page creation,Website testing.
+- Nandhana Rajendran: Level Page,Redeem and Badges page creation,deployment. 
+ 
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
